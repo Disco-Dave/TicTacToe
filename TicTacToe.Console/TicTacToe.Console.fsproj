@@ -9,6 +9,7 @@
     <Compile Include="Properties\AssemblyInfo.fs" />
     <Compile Include="Shared.fs" />
     <Compile Include="View.fs" />
+    <Compile Include="Command.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 
