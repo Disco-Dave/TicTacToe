@@ -8,9 +8,9 @@ open TicTacToe.Domain
 [<Fact>]
 let ``View.board can render an empty board``() =
     let view = View.board Board.empty
-    let expectedView = " 1 | 2 | 3
+    let expectedView = " 1 | 2 | 3 
 -----------
- 4 | 5 | 6
+ 4 | 5 | 6 
 -----------
  7 | 8 | 9 "
     Assert.Equal(expectedView, view)
@@ -26,9 +26,9 @@ let ``View.board can render a non-empty board``() =
         |> Board.place O (ThirdColumn, ThirdRow)
         |> View.board
 
-    let expectedView = " 1 | X | 3
+    let expectedView = " 1 | X | 3 
 -----------
- X | 5 | O
+ X | 5 | O 
 -----------
  7 | 8 | O "
     Assert.Equal(expectedView, view)
@@ -49,9 +49,32 @@ let ``View.board can render a full board``() =
         |> Board.place O (ThirdColumn, ThirdRow)
         |> View.board
 
-    let expectedView = " X | X | O
+    let expectedView = " X | X | O 
 -----------
- X | O | O
+ X | O | O 
 -----------
  O | X | O "
     Assert.Equal(expectedView, view)
+
+
+[<Fact>]
+let ``View.commandPrompt show correct commands for OnGoing game`` () =
+    for piece in [X; O] do
+        let status = OnGoing piece
+        let expectedPrompt =
+            sprintf "%s's turn. [1..9] to place a piece, [u]ndo, [r]estart, or [q]uit: " (piece.ToString())
+        Assert.Equal (expectedPrompt, View.commandPrompt status)
+        
+[<Fact>]
+let ``View.commandPrompt show correct commands for Tie game`` () =
+    let status = Tie
+    let expectedPrompt = "Tie game! [u]ndo, [r]estart, or [q]uit: "
+    Assert.Equal (expectedPrompt, View.commandPrompt status)
+    
+[<Fact>]
+let ``View.commandPrompt show correct commands for Won game`` () =
+    for piece in [X; O] do
+        let status = Win piece
+        let expectedPrompt =
+            sprintf "%s won! [u]ndo, [r]estart, or [q]uit: " (piece.ToString())
+        Assert.Equal (expectedPrompt, View.commandPrompt status)

@@ -22,3 +22,12 @@ let board (board: Board): string =
     |> Seq.chunkBySize 3
     |> Seq.map (viewRow board)
     |> String.concat (Environment.NewLine + "-----------" + Environment.NewLine)
+
+let commandPrompt (status: GameStatus) =
+    match status with
+    | OnGoing piece ->
+        sprintf "%s's turn. [1..9] to place a piece, [u]ndo, [r]estart, or [q]uit: " (piece.ToString())
+    | Tie ->
+        "Tie game! [u]ndo, [r]estart, or [q]uit: "
+    | Win piece ->
+        sprintf "%s won! [u]ndo, [r]estart, or [q]uit: " (piece.ToString())
