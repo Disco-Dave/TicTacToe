@@ -78,3 +78,90 @@ let ``View.commandPrompt show correct commands for Won game`` () =
         let expectedPrompt =
             sprintf "%s won! [u]ndo, [r]estart, or [q]uit: " (piece.ToString())
         Assert.Equal (expectedPrompt, View.commandPrompt status)
+        
+[<Fact>]
+let ``View.game can render new game`` () =
+    for piece in [X; O] do
+        let model =
+            { Board = Board.empty
+              Status = OnGoing piece }
+        let expectedView = sprintf " 1 | 2 | 3 
+-----------
+ 4 | 5 | 6 
+-----------
+ 7 | 8 | 9 
+
+%s's turn. [1..9] to place a piece, [u]ndo, [r]estart, or [q]uit: " (piece.ToString())
+        Assert.Equal (expectedView, View.game model)
+    
+    
+[<Fact>]
+let ``View.game can render non-emtpy on going game`` () =
+    for piece in [X; O] do
+        let board =
+            Board.empty
+            |> Board.place X (SecondColumn, FirstRow)
+            |> Board.place O (ThirdColumn, SecondRow)
+            |> Board.place X (FirstColumn, SecondRow)
+            |> Board.place O (ThirdColumn, ThirdRow)
+        let model =
+            { Board = board
+              Status = OnGoing piece }
+        let expectedView = sprintf " 1 | X | 3 
+-----------
+ X | 5 | O 
+-----------
+ 7 | 8 | O 
+
+%s's turn. [1..9] to place a piece, [u]ndo, [r]estart, or [q]uit: " (piece.ToString())
+        Assert.Equal (expectedView, View.game model)
+        
+[<Fact>]
+let ``View.game can render tie game`` () =
+    let board =
+        Board.empty
+        |> Board.place X (FirstColumn, FirstRow)
+        |> Board.place O (SecondColumn, FirstRow)
+        |> Board.place X (ThirdColumn, FirstRow)
+        |> Board.place X (FirstColumn, SecondRow)
+        |> Board.place O (SecondColumn, SecondRow)
+        |> Board.place O (ThirdColumn, SecondRow)
+        |> Board.place O (FirstColumn, ThirdRow)
+        |> Board.place X (SecondColumn, ThirdRow)
+        |> Board.place O (ThirdColumn, ThirdRow)
+    let model =
+        { Board = board
+          Status = Tie }
+    let expectedView = " X | O | X 
+-----------
+ X | O | O 
+-----------
+ O | X | O 
+
+Tie game! [u]ndo, [r]estart, or [q]uit: "
+    Assert.Equal (expectedView, View.game model)
+    
+[<Fact>]
+let ``View.game can render won game`` () =
+    let board =
+        Board.empty
+        |> Board.place X (FirstColumn, FirstRow)
+        |> Board.place X (SecondColumn, FirstRow)
+        |> Board.place X (ThirdColumn, FirstRow)
+        |> Board.place X (FirstColumn, SecondRow)
+        |> Board.place O (SecondColumn, SecondRow)
+        |> Board.place O (ThirdColumn, SecondRow)
+        |> Board.place O (FirstColumn, ThirdRow)
+        |> Board.place X (SecondColumn, ThirdRow)
+        |> Board.place O (ThirdColumn, ThirdRow)
+    let model =
+        { Board = board
+          Status = Win X }
+    let expectedView = " X | X | X 
+-----------
+ X | O | O 
+-----------
+ O | X | O 
+
+X won! [u]ndo, [r]estart, or [q]uit: "
+    Assert.Equal (expectedView, View.game model)

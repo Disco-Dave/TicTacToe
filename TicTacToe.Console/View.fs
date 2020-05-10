@@ -31,3 +31,6 @@ let commandPrompt (status: GameStatus) =
         "Tie game! [u]ndo, [r]estart, or [q]uit: "
     | Win piece ->
         sprintf "%s won! [u]ndo, [r]estart, or [q]uit: " (piece.ToString())
+
+let game (model: GameModel): string =
+    board model.Board + Environment.NewLine + Environment.NewLine + commandPrompt model.Status
