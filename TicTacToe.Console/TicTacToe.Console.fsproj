@@ -10,6 +10,9 @@
     <Compile Include="Shared.fs" />
     <Compile Include="View.fs" />
     <Compile Include="Command.fs" />
+    <Compile Include="Effect.fs" />
+    <Compile Include="Reader.fs" />
+    <Compile Include="Driver.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 

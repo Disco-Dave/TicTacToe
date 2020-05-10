@@ -1,2 +1,7 @@
-﻿[<EntryPoint>]
-let main _ = 0
+﻿open TicTacToe.Console
+open TicTacToe.Console.Effect
+
+[<EntryPoint>]
+let main _ =
+    Driver.start () (AppEffects())
+    0
