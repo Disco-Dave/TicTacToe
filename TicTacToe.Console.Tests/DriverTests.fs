@@ -33,7 +33,7 @@ type private MockEffects(console: IConsole) =
 let private simulate readLines =
     let console = MockConsole (readLines @ ["q"]) // Ensures that we terminate the game loop.
     let mockEffects = MockEffects console
-    Driver.start () mockEffects
+    Driver.start mockEffects
     console.GetOutput ()
     
 

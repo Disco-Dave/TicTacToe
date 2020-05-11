@@ -3,5 +3,6 @@ open TicTacToe.Console.Effect
 
 [<EntryPoint>]
 let main _ =
-    Driver.start () (AppEffects())
+    let eff = AppEffects ()
+    Driver.start eff
     0

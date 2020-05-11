@@ -19,9 +19,9 @@ type internal IHasConsole =
     abstract member Console : IConsole
     
 module internal Console =
-    let readLine () (eff: #IHasConsole) = eff.Console.ReadLine ()
-    let write message (eff: #IHasConsole) = eff.Console.Write message
-    let clearScreen () (eff: #IHasConsole) = eff.Console.ClearScreen ()
+    let readLine (eff: #IHasConsole) = eff.Console.ReadLine
+    let write (eff: #IHasConsole) = eff.Console.Write 
+    let clearScreen (eff: #IHasConsole) = eff.Console.ClearScreen
     
 [<Struct>]
 type internal AppEffects =
